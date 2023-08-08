@@ -7,7 +7,7 @@ which provides main page functionality for [Omnipedia](https://omnipedia.app/).
 
 # Requirements
 
-* [10](https://www.drupal.org/download)
+* [Drupal 10](https://www.drupal.org/download)
 
 * PHP 8.1
 
