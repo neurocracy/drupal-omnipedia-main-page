@@ -40,14 +40,14 @@ should get you up and running.
 In your root `composer.json`, add the following to the `"repositories"` section:
 
 ```json
-"drupal/omnipedia_date": {
+"drupal/omnipedia_main_page": {
   "type": "vcs",
-  "url": "https://github.com/neurocracy/drupal-omnipedia-date.git"
+  "url": "https://github.com/neurocracy/drupal-omnipedia-main-page.git"
 }
 ```
 
 ### Installing
 
 Once you've completed all of the above, run `composer require
-"drupal/omnipedia_date:4.x-dev@dev"` in the root of your project to have
+"drupal/omnipedia_main_page:1.x-dev@dev"` in the root of your project to have
 Composer install this and its required dependencies for you.
