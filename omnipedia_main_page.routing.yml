@@ -1,0 +1,6 @@
+omnipedia_main_page.main_page:
+  path: '/wiki/Main_Page'
+  defaults:
+    _controller: 'Drupal\omnipedia_main_page\Controller\MainPageController::view'
+  requirements:
+    _custom_access: 'Drupal\omnipedia_main_page\Controller\MainPageController::access'
