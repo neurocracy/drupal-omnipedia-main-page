@@ -1,0 +1,23 @@
+{
+  "name": "drupal/omnipedia_main_page",
+  "description": "Omnipedia - Main page",
+  "type": "drupal-custom-module",
+  "license": "GPL-2.0-or-later",
+  "support": {
+    "docs": "https://github.com/neurocracy/drupal-omnipedia-main-page",
+    "source": "https://github.com/neurocracy/drupal-omnipedia-main-page"
+  },
+  "authors": [
+    {
+      "name": "Ambient.Impact",
+      "homepage": "https://ambientimpact.com/",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "drupal/core": "^10.0",
+    "drupal/omnipedia_core": "5.x-dev@dev",
+    "drupal/omnipedia_date": "5.x-dev@dev"
+  }
+}
