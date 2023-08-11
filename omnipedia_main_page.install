@@ -1,0 +1,47 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Url;
+
+/**
+ * Implements \hook_install().
+ *
+ * This sets our main page route as the 'system.site.page.front' configuration
+ * value so that we can take over how the main page is handled.
+ *
+ * @see \omnipedia_main_page_uninstall()
+ *
+ * @todo Save the original configuration to restore in \hook_uninstall()?
+ */
+function omnipedia_main_page_install(bool $isSyncing): void {
+
+  \Drupal::service('router.builder')->rebuild();
+
+  $urlObject = Url::fromRoute('omnipedia_main_page.main_page');
+
+  \Drupal::service('config.factory')->getEditable('system.site')->set(
+    'page.front', $urlObject->toString(),
+  )->save();
+
+}
+
+/**
+ * Implements \hook_uninstall().
+ *
+ * This sets the 'system.site.page.front' configuration to an empty string to
+ * remove our route that was set on install.
+ *
+ * @see \omnipedia_main_page_install()
+ *
+ * @todo Should we save the original configuration value and restore that? If
+ *   so, where do we save it? Config? State? What if it's no longer relevant or
+ *   no longer exists at the time of uninstalling this?
+ */
+function omnipedia_main_page_uninstall(bool $isSyncing): void {
+
+  \Drupal::service('config.factory')->getEditable('system.site')->set(
+    'page.front', '',
+  )->save();
+
+}
