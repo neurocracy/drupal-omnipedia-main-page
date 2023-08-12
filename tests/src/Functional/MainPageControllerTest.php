@@ -137,4 +137,32 @@ class MainPageControllerTest extends BrowserTestBase {
 
   }
 
+  /**
+   * Test that visiting the base URL doesn't redirect to unpublished main pages.
+   *
+   * @dataProvider datesDataProvider
+   */
+  public function testRedirectAccess(string $date): void {
+
+    // Set the default date.
+    $this->defaultDate->set($date);
+
+    // Set the main page to unpublished which is not accessible to anonymous
+    // users with the default permissions for that role.
+    $this->mainPageNodes[$date]->setUnpublished()->save();
+
+    // Set the default main page using the provided default date.
+    $this->wikiNodeMainPage->setDefault($this->mainPageNodes[$date]);
+
+    // Request the base URL.
+    $this->drupalGet('');
+
+    // This should result in a 403 access denied.
+    $this->assertSession()->statusCodeEquals(403);
+
+    // The redirect should not have occurred as the user doesn't have access.
+    $this->assertSession()->addressEquals('/');
+
+  }
+
 }
