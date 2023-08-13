@@ -105,7 +105,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
 
     // Prepend our submit handler to the #submit array so it's triggered before
     // the default one.
-    \array_unshift($form['#submit'], [$this, 'submitDefaultDate']);
+    \array_unshift($form['#submit'], [$this, 'submitMainPage']);
 
   }
 
@@ -165,7 +165,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
   }
 
   /**
-   * Submit callback to update the default date based on input.
+   * Submit callback to update the default main page based on input.
    *
    * @param array &$form
    *   The whole form.
@@ -173,7 +173,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
    * @param \Drupal\Core\Form\FormStateInterface $formState
    *   The current state of the form.
    */
-  public function submitDefaultDate(
+  public function submitMainPage(
     array $form, FormStateInterface $formState,
   ): void {
 
