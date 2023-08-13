@@ -130,7 +130,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
     if (empty($element['#value'])) {
 
       $formState->setErrorByName(
-        'main_page_title', $this->t('This cannot be empty.')
+        'main_page_title', $this->t('The main page title cannot be empty.')
       );
 
       return;
@@ -142,7 +142,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
     ))) {
 
       $formState->setErrorByName('main_page_title', $this->t(
-        'Cannot find an existing wiki page with this title.',
+        'The main page title doesn\'t match any existing wiki page.',
       ));
 
       return;
@@ -155,7 +155,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
     ))) {
 
       $formState->setErrorByName('main_page_title', $this->t(
-        'A wiki page exists but doesn\'t have a revision available for the specifed default date.'
+        'The main page title exists but that wiki page doesn\'t have a revision available for the specifed default date.',
       ));
 
       return;
