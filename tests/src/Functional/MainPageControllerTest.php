@@ -105,7 +105,7 @@ class MainPageControllerTest extends BrowserTestBase {
    *
    * @return array
    */
-  public function datesDataProvider(): array {
+  public static function datesDataProvider(): array {
 
     return [
       ['2049-09-28'],
