@@ -45,6 +45,13 @@ class InstallUninstallTest extends KernelTestBase {
 
   }
 
+  /**
+   * Test \hook_install() and \hook_uninstall().
+   *
+   * @see \omnipedia_main_page_install()
+   *
+   * @see \omnipedia_main_page_uninstall()
+   */
   public function testInstallUninstall(): void {
 
     /** @var \Drupal\Core\Extension\ModuleInstallerInterface The Drupal module installer service. */
