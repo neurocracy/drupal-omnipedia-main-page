@@ -9,7 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
-use Drupal\omnipedia_core\Entity\Node as WikiNode;
+use Drupal\omnipedia_core\Entity\WikiNodeInfo;
 use Drupal\omnipedia_core\Service\WikiNodeMainPageInterface;
 use Drupal\omnipedia_core\Service\WikiNodeResolverInterface;
 use Drupal\omnipedia_core\Service\WikiNodeRevisionInterface;
@@ -83,7 +83,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
     $contentOverviewLink = Link::createFromRoute(
       $this->t('an existing wiki page'),
       'system.admin_content',
-      ['type' => WikiNode::getWikiNodeType()],
+      ['type' => WikiNodeInfo::TYPE],
     )->toString();
 
     /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
