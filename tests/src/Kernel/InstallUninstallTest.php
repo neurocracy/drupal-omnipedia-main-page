@@ -21,7 +21,7 @@ class InstallUninstallTest extends KernelTestBase {
    */
   protected static $modules = [
     'datetime', 'field', 'filter', 'menu_ui', 'node', 'omnipedia_core',
-    'system', 'taxonomy', 'text', 'user',
+    'system', 'taxonomy', 'text', 'typed_entity', 'user',
   ];
 
   /**
