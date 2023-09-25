@@ -9,3 +9,31 @@ services:
       - '@string_translation'
     tags:
       - { name: 'event_subscriber' }
+
+  omnipedia_main_page.cache:
+    class: Drupal\omnipedia_main_page\Service\MainPageCache
+    arguments:
+      - '@cache.default'
+      - '@omnipedia_main_page.default'
+      - '@omnipedia.wiki_node_resolver'
+
+  omnipedia_main_page.default:
+    class: Drupal\omnipedia_main_page\Service\MainPageDefault
+    arguments:
+      - '@omnipedia.wiki_node_resolver'
+      - '@state'
+
+  omnipedia_main_page.resolver:
+    class: Drupal\omnipedia_main_page\Service\MainPageResolver
+    arguments:
+      - '@omnipedia_main_page.default'
+      - '@omnipedia.wiki_node_resolver'
+      - '@omnipedia.wiki_node_revision'
+
+  omnipedia_main_page.route:
+    class: Drupal\omnipedia_main_page\Service\MainPageRoute
+    arguments:
+      - '@current_route_match'
+      - '@omnipedia_main_page.default'
+      - '@omnipedia_main_page.resolver'
+      - '@omnipedia.wiki_node_route'
