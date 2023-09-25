@@ -13,8 +13,9 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
 use Drupal\omnipedia_core\Entity\NodeInterface;
-use Drupal\omnipedia_core\Service\WikiNodeMainPageInterface;
 use Drupal\omnipedia_date\Service\CurrentDateInterface;
+use Drupal\omnipedia_main_page\Service\MainPageCacheInterface;
+use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,13 +32,17 @@ class MainPageController implements ContainerInjectionInterface {
    * @param \Drupal\omnipedia_date\Service\CurrentDateInterface $currentDate
    *   The Omnipedia current date service.
    *
-   * @param \Drupal\omnipedia_core\Service\WikiNodeMainPageInterface $wikiNodeMainPage
-   *   The Omnipedia wiki node main page service.
+   * @param \Drupal\omnipedia_main_page\Service\MainPageCacheInterface $mainPageCache
+   *   The Omnipedia main page cache service.
+   *
+   * @param \Drupal\omnipedia_main_page\Service\MainPageResolverInterface $mainPageResolver
+   *   The Omnipedia main page resolver service.
    */
   public function __construct(
     protected readonly AccountProxyInterface      $currentUser,
     protected readonly CurrentDateInterface       $currentDate,
-    protected readonly WikiNodeMainPageInterface  $wikiNodeMainPage,
+    protected readonly MainPageCacheInterface     $mainPageCache,
+    protected readonly MainPageResolverInterface  $mainPageResolver,
   ) {}
 
   /**
@@ -47,7 +52,8 @@ class MainPageController implements ContainerInjectionInterface {
     return new static(
       $container->get('current_user'),
       $container->get('omnipedia_date.current_date'),
-      $container->get('omnipedia.wiki_node_main_page'),
+      $container->get('omnipedia_main_page.cache'),
+      $container->get('omnipedia_main_page.resolver'),
     );
   }
 
@@ -58,12 +64,12 @@ class MainPageController implements ContainerInjectionInterface {
    *   The main page wiki node for the current date, or for the default date if
    *   a current date is not set for the current user.
    *
-   * @see \Drupal\omnipedia_core\Service\WikiNodeMainPageInterface::getMainPage()
+   * @see \Drupal\omnipedia_main_page\Service\MainPageResolverInterface::get()
    *
    * @see \Drupal\omnipedia_date\Service\CurrentDateInterface::get()
    */
   protected function getMainPage(): ?NodeInterface {
-    return $this->wikiNodeMainPage->getMainPage($this->currentDate->get());
+    return $this->mainPageResolver->get($this->currentDate->get());
   }
 
   /**
@@ -85,7 +91,7 @@ class MainPageController implements ContainerInjectionInterface {
       'omnipedia_dates',
       'user.permissions',
       'user.node_grants:view',
-    ])->addCacheTags($this->wikiNodeMainPage->getMainPagesCacheTags());
+    ])->addCacheTags($this->mainPageCache->getAllCacheTags());
 
     return $generatedUrl;
 

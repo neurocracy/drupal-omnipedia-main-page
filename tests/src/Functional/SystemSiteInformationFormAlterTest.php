@@ -6,9 +6,10 @@ namespace Drupal\Tests\omnipedia_main_page\Functional;
 
 use Drupal\omnipedia_core\Entity\NodeInterface as WikiNodeInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
-use Drupal\omnipedia_core\Service\WikiNodeMainPageInterface;
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_date\Service\DefaultDateInterface;
+use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
+use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\UserInterface;
 
@@ -44,11 +45,18 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
   protected readonly DefaultDateInterface $defaultDate;
 
   /**
-   * The Omnipedia wiki node main page service.
+   * The Omnipedia default main page service.
    *
-   * @var \Drupal\omnipedia_core\Service\WikiNodeMainPageInterface
+   * @var \Drupal\omnipedia_main_page\Service\MainPageDefaultInterface
    */
-  protected readonly WikiNodeMainPageInterface $wikiNodeMainPage;
+  protected readonly MainPageDefaultInterface $mainPageDefault;
+
+  /**
+   * The Omnipedia main page resolver service.
+   *
+   * @var \Drupal\omnipedia_main_page\Service\MainPageResolverInterface
+   */
+  protected readonly MainPageResolverInterface $mainPageResolver;
 
   /**
    * The Omnipedia wiki node tracker service.
@@ -116,8 +124,12 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
     // of looping through the defined dates actually changes the value.
     $this->defaultDate->set(\end($this->definedDatesData));
 
-    $this->wikiNodeMainPage = $this->container->get(
-      'omnipedia.wiki_node_main_page'
+    $this->mainPageDefault = $this->container->get(
+      'omnipedia_main_page.default',
+    );
+
+    $this->mainPageResolver = $this->container->get(
+      'omnipedia_main_page.resolver',
     );
 
     $this->wikiNodeTracker = $this->container->get(
@@ -145,7 +157,7 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
     }
 
     // Set the default main page using the default date.
-    $this->wikiNodeMainPage->setDefault($this->mainPageNodes[
+    $this->mainPageDefault->set($this->mainPageNodes[
       $this->defaultDate->get()
     ]);
 
@@ -247,14 +259,14 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
     foreach ($this->definedDatesData as $date) {
 
       /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
-      $previousMainPage = $this->wikiNodeMainPage->getMainPage('default');
+      $previousMainPage = $this->mainPageResolver->get('default');
 
       $this->submitForm([
         self::DEFAULT_DATE_FIELD => $date,
       ], 'Save configuration');
 
       /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
-      $newMainPage = $this->wikiNodeMainPage->getMainPage('default');
+      $newMainPage = $this->mainPageResolver->get('default');
 
       // Assert that changing the default date did indeed change the main page
       // node.

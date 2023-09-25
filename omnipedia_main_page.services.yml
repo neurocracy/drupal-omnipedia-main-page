@@ -3,7 +3,8 @@ services:
   omnipedia_main_page.form_system_site_information_settings_event_subscriber:
     class: Drupal\omnipedia_main_page\EventSubscriber\Form\SystemSiteInformationSettingsEventSubscriber
     arguments:
-      - '@omnipedia.wiki_node_main_page'
+      - '@omnipedia_main_page.default'
+      - '@omnipedia_main_page.resolver'
       - '@omnipedia.wiki_node_resolver'
       - '@omnipedia.wiki_node_revision'
       - '@string_translation'

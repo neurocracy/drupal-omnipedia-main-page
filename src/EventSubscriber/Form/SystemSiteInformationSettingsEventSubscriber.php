@@ -10,9 +10,10 @@ use Drupal\Core\Link;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\hook_event_dispatcher\HookEventDispatcherInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
-use Drupal\omnipedia_core\Service\WikiNodeMainPageInterface;
 use Drupal\omnipedia_core\Service\WikiNodeResolverInterface;
 use Drupal\omnipedia_core\Service\WikiNodeRevisionInterface;
+use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
+use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -25,8 +26,11 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
   /**
    * Event subscriber constructor; saves dependencies.
    *
-   * @param \Drupal\omnipedia_core\Service\WikiNodeMainPageInterface $wikiNodeMainPage
-   *   The Omnipedia wiki node main page service.
+   * @param \Drupal\omnipedia_main_page\Service\MainPageDefaultInterface $mainPageDefault
+   *   The Omnipedia default main page service.
+   *
+   * @param \Drupal\omnipedia_main_page\Service\MainPageResolverInterface $mainPageResolver
+   *   The Omnipedia main page resolver service.
    *
    * @param \Drupal\omnipedia_core\Service\WikiNodeResolverInterface $wikiNodeResolver
    *   The Omnipedia wiki node resolver service.
@@ -38,7 +42,8 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
    *   The Drupal string translation service.
    */
   public function __construct(
-    protected readonly WikiNodeMainPageInterface  $wikiNodeMainPage,
+    protected readonly MainPageDefaultInterface   $mainPageDefault,
+    protected readonly MainPageResolverInterface  $mainPageResolver,
     protected readonly WikiNodeResolverInterface  $wikiNodeResolver,
     protected readonly WikiNodeRevisionInterface  $wikiNodeRevision,
     protected $stringTranslation,
@@ -87,7 +92,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
     )->toString();
 
     /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
-    $mainPage = $this->wikiNodeMainPage->getMainPage('default');
+    $mainPage = $this->mainPageResolver->get('default');
 
     $form['front_page']['main_page_title'] = [
       '#type'             => 'textfield',
@@ -182,7 +187,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
       $formState->getValue('default_date'),
     );
 
-    $this->wikiNodeMainPage->setDefault($node);
+    $this->mainPageDefault->set($node);
 
   }
 

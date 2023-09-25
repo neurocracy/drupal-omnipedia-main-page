@@ -6,9 +6,9 @@ namespace Drupal\Tests\omnipedia_main_page\Functional;
 
 use Drupal\omnipedia_core\Entity\NodeInterface as WikiNodeInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
-use Drupal\omnipedia_core\Service\WikiNodeMainPageInterface;
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_date\Service\DefaultDateInterface;
+use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
 use Drupal\Tests\BrowserTestBase;
 
 /**
@@ -28,11 +28,11 @@ class MainPageControllerTest extends BrowserTestBase {
   protected readonly DefaultDateInterface $defaultDate;
 
   /**
-   * The Omnipedia wiki node main page service.
+   * The Omnipedia default main page service.
    *
-   * @var \Drupal\omnipedia_core\Service\WikiNodeMainPageInterface
+   * @var \Drupal\omnipedia_main_page\Service\MainPageDefaultInterface
    */
-  protected readonly WikiNodeMainPageInterface $wikiNodeMainPage;
+  protected readonly MainPageDefaultInterface $mainPageDefault;
 
   /**
    * The Omnipedia wiki node tracker service.
@@ -67,8 +67,8 @@ class MainPageControllerTest extends BrowserTestBase {
 
     $this->defaultDate = $this->container->get('omnipedia_date.default_date');
 
-    $this->wikiNodeMainPage = $this->container->get(
-      'omnipedia.wiki_node_main_page'
+    $this->mainPageDefault = $this->container->get(
+      'omnipedia_main_page.default',
     );
 
     $this->wikiNodeTracker = $this->container->get(
@@ -128,7 +128,7 @@ class MainPageControllerTest extends BrowserTestBase {
     $this->defaultDate->set($date);
 
     // Set the default main page using the provided default date.
-    $this->wikiNodeMainPage->setDefault($this->mainPageNodes[$date]);
+    $this->mainPageDefault->set($this->mainPageNodes[$date]);
 
     // Request the base URL which should redirect to the node's canonical URL.
     $this->drupalGet('');
@@ -152,7 +152,7 @@ class MainPageControllerTest extends BrowserTestBase {
     $this->mainPageNodes[$date]->setUnpublished()->save();
 
     // Set the default main page using the provided default date.
-    $this->wikiNodeMainPage->setDefault($this->mainPageNodes[$date]);
+    $this->mainPageDefault->set($this->mainPageNodes[$date]);
 
     // Request the base URL.
     $this->drupalGet('');
