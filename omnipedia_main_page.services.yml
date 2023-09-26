@@ -1,5 +1,12 @@
 services:
 
+  cache_context.omnipedia_is_wiki_main_page:
+    class: Drupal\omnipedia_main_page\Cache\Context\IsWikiMainPageCacheContext
+    arguments:
+      - '@omnipedia_main_page.route'
+    tags:
+      - { name: cache.context }
+
   omnipedia_main_page.form_system_site_information_settings_event_subscriber:
     class: Drupal\omnipedia_main_page\EventSubscriber\Form\SystemSiteInformationSettingsEventSubscriber
     arguments:
