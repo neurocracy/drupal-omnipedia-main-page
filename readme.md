@@ -17,7 +17,7 @@ which provides main page functionality for [Omnipedia](https://omnipedia.app/).
 
 Follow the Composer installation instructions for these dependencies first:
 
-* The [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core) and [`omnipedia_date`](https://github.com/neurocracy/drupal-omnipedia-date) modules.
+* The [`omnipedia_access`](https://github.com/neurocracy/drupal-omnipedia-access), [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core), and [`omnipedia_date`](https://github.com/neurocracy/drupal-omnipedia-date) modules.
 
 ----
 
