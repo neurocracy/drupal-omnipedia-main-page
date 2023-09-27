@@ -91,7 +91,7 @@ class SystemSiteInformationSettingsEventSubscriber implements EventSubscriberInt
       ['type' => WikiNodeInfo::TYPE],
     )->toString();
 
-    /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
+    /** @var \Drupal\node\NodeInterface|null */
     $mainPage = $this->mainPageResolver->get('default');
 
     $form['front_page']['main_page_title'] = [

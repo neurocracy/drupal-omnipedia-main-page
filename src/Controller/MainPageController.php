@@ -12,7 +12,7 @@ use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
-use Drupal\omnipedia_core\Entity\NodeInterface;
+use Drupal\node\NodeInterface;
 use Drupal\omnipedia_date\Service\CurrentDateInterface;
 use Drupal\omnipedia_main_page\Service\MainPageCacheInterface;
 use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
@@ -60,7 +60,7 @@ class MainPageController implements ContainerInjectionInterface {
   /**
    * Get the main page wiki node to redirect to.
    *
-   * @return \Drupal\omnipedia_core\Entity\NodeInterface
+   * @return \Drupal\node\NodeInterface
    *   The main page wiki node for the current date, or for the default date if
    *   a current date is not set for the current user.
    *

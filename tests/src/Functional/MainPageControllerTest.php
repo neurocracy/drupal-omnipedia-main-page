@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\omnipedia_main_page\Functional;
 
-use Drupal\omnipedia_core\Entity\NodeInterface as WikiNodeInterface;
+use Drupal\node\NodeInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_date\Service\DefaultDateInterface;
@@ -44,7 +44,7 @@ class MainPageControllerTest extends BrowserTestBase {
   /**
    * Main page nodes created for the test.
    *
-   * @var \Drupal\omnipedia_core\Entity\NodeInterface[]
+   * @var \Drupal\node\NodeInterface[]
    */
   protected array $mainPageNodes = [];
 
@@ -84,11 +84,11 @@ class MainPageControllerTest extends BrowserTestBase {
       /** @var string A date in the storage format */
       $date = $providerData[0];
 
-      /** @var \Drupal\omnipedia_core\Entity\NodeInterface */
+      /** @var \Drupal\node\NodeInterface */
       $this->mainPageNodes[$date] = $this->drupalCreateNode([
         'title'       => $mainPageTitle,
         'type'        => WikiNodeInfo::TYPE,
-        'status'      => WikiNodeInterface::PUBLISHED,
+        'status'      => NodeInterface::PUBLISHED,
         'field_date'  => $date,
       ]);
 

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\omnipedia_main_page\Functional;
 
-use Drupal\omnipedia_core\Entity\NodeInterface as WikiNodeInterface;
+use Drupal\node\NodeInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_date\Service\DefaultDateInterface;
@@ -88,7 +88,7 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
   /**
    * Main page nodes created for the test.
    *
-   * @var \Drupal\omnipedia_core\Entity\NodeInterface[]
+   * @var \Drupal\node\NodeInterface[]
    */
   protected array $mainPageNodes = [];
 
@@ -142,11 +142,11 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
     // Create several main page nodes for different dates.
     foreach ($this->definedDatesData as $date) {
 
-      /** @var \Drupal\omnipedia_core\Entity\NodeInterface */
+      /** @var \Drupal\node\NodeInterface */
       $this->mainPageNodes[$date] = $this->drupalCreateNode([
         'title'       => $mainPageTitle,
         'type'        => WikiNodeInfo::TYPE,
-        'status'      => WikiNodeInterface::PUBLISHED,
+        'status'      => NodeInterface::PUBLISHED,
         'field_date'  => $date,
       ]);
 
@@ -222,11 +222,11 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
       'error',
     );
 
-    /** @var \Drupal\omnipedia_core\Entity\NodeInterface */
+    /** @var \Drupal\node\NodeInterface */
     $otherWikiNode = $this->drupalCreateNode([
       'title'       => $this->randomMachineName(8),
       'type'        => WikiNodeInfo::TYPE,
-      'status'      => WikiNodeInterface::PUBLISHED,
+      'status'      => NodeInterface::PUBLISHED,
       'field_date'  => \reset($this->definedDatesData),
     ]);
 
@@ -258,14 +258,14 @@ class SystemSiteInformationFormAlterTest extends BrowserTestBase {
 
     foreach ($this->definedDatesData as $date) {
 
-      /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
+      /** @var \Drupal\node\NodeInterface|null */
       $previousMainPage = $this->mainPageResolver->get('default');
 
       $this->submitForm([
         self::DEFAULT_DATE_FIELD => $date,
       ], 'Save configuration');
 
-      /** @var \Drupal\omnipedia_core\Entity\NodeInterface|null */
+      /** @var \Drupal\node\NodeInterface|null */
       $newMainPage = $this->mainPageResolver->get('default');
 
       // Assert that changing the default date did indeed change the main page
