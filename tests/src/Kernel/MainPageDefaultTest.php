@@ -6,8 +6,7 @@ namespace Drupal\Tests\omnipedia_main_page\Kernel;
 
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
-use Drupal\Tests\omnipedia_core\Kernel\WikiNodeKernelTestBase;
-use Drupal\Tests\omnipedia_core\Traits\WikiNodeProvidersTrait;
+use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
 use Drupal\typed_entity\EntityWrapperInterface;
 
 /**
@@ -19,88 +18,7 @@ use Drupal\typed_entity\EntityWrapperInterface;
  *
  * @coversDefaultClass \Drupal\omnipedia_main_page\Service\MainPageDefault
  */
-class MainPageDefaultTest extends WikiNodeKernelTestBase {
-
-  use WikiNodeProvidersTrait;
-
-  /**
-   * The Omnipedia default main page service.
-   *
-   * @var \Drupal\omnipedia_main_page\Service\MainPageDefaultInterface
-   */
-  protected readonly MainPageDefaultInterface $mainPageDefault;
-
-  /**
-   * Node objects for the tests, keyed by their nid.
-   *
-   * @var \Drupal\node\NodeInterface[]
-   */
-  protected array $nodes;
-
-  /**
-   * The Typed Entity repository manager.
-   *
-   * @var \Drupal\typed_entity\EntityWrapperInterface
-   */
-  protected readonly EntityWrapperInterface $typedEntityRepositoryManager;
-
-  /**
-   * The Omnipedia wiki node tracker service.
-   *
-   * @var \Drupal\omnipedia_core\Service\WikiNodeTrackerInterface
-   */
-  protected readonly WikiNodeTrackerInterface $wikiNodeTracker;
-
-  /**
-   * {@inheritdoc}
-   *
-   * @see \Drupal\Tests\omnipedia_core\Kernel\WikiNodeKernelTestBase::$modules
-   */
-  protected static $modules = [
-    'datetime', 'field', 'filter', 'menu_ui', 'node', 'omnipedia_core',
-    'omnipedia_date', 'omnipedia_main_page', 'system', 'taxonomy', 'text',
-    'typed_entity', 'user',
-  ];
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function setUp(): void {
-
-    parent::setUp();
-
-    $this->mainPageDefault = $this->container->get(
-      'omnipedia_main_page.default',
-    );
-
-    $this->typedEntityRepositoryManager = $this->container->get(
-      'Drupal\typed_entity\RepositoryManager',
-    );
-
-    $this->wikiNodeTracker = $this->container->get(
-      'omnipedia.wiki_node_tracker',
-    );
-    $this->drupalCreateContentType(['type' => 'page']);
-
-    $parameters = static::generateWikiNodeValues();
-
-    /** @var \Drupal\node\NodeInterface[] Node objects keyed by their nid. */
-    $nodes = [];
-
-    foreach ($parameters as $values) {
-
-      /** @var \Drupal\node\NodeInterface */
-      $node = $this->drupalCreateNode($values);
-
-      $this->wikiNodeTracker->trackWikiNode($node);
-
-      $nodes[$node->id()] = $node;
-
-    }
-
-    $this->nodes = $nodes;
-
-  }
+class MainPageDefaultTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that getting the default main page when not set throws an exception.
@@ -151,15 +69,17 @@ class MainPageDefaultTest extends WikiNodeKernelTestBase {
    */
   public function testSetGetValid(): void {
 
+    $nodes = $this->generateTestNodes(false);
+
     /** @var \Drupal\node\NodeInterface */
-    $node = \reset($this->nodes);
+    $firstNode = \reset($nodes);
 
     /** @var \Drupal\omnipedia_core\WrappedEntities\NodeWithWikiInfoInterface */
-    $wrappedNode = $this->typedEntityRepositoryManager->wrap($node);
+    $wrappedNode = $this->typedEntityRepositoryManager->wrap($firstNode);
 
     $firstDate = $wrappedNode->getWikiDate();
 
-    foreach ($this->nodes as $nid => $node) {
+    foreach ($nodes as $nid => $node) {
 
       /** @var \Drupal\omnipedia_core\WrappedEntities\NodeWithWikiInfoInterface */
       $wrappedNode = $this->typedEntityRepositoryManager->wrap($node);
