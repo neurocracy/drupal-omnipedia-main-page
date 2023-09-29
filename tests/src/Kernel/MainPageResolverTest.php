@@ -97,7 +97,7 @@ class MainPageResolverTest extends MainPageServiceKernelTestBase {
   }
 
   /**
-   * Test that the service correctly identifies main pages and non-main pages.
+   * Test that the service returns the expected main pages for each date.
    *
    * @covers ::get()
    *
