@@ -23,7 +23,7 @@ class MainPageCache implements MainPageCacheInterface {
   /**
    * Constructs this service object; saves dependencies.
    *
-   * @param Drupal\Core\Cache\CacheBackendInterface $cache
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache
    *   The default Drupal cache bin.
    *
    * @param \Drupal\omnipedia_main_page\Service\MainPageDefaultInterface $mainPageDefault
