@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\omnipedia_main_page\Kernel;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\omnipedia_main_page\Service\MainPageCache;
 use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
@@ -62,6 +63,73 @@ class MainPageCacheTest extends MainPageServiceKernelTestBase {
     );
 
     $this->assertEquals(['hello'], $mainPageCache->getAllCacheTags());
+
+  }
+
+  /**
+   * Test getting all main page cache tags when not already cached.
+   *
+   * @covers ::getAllCacheTags()
+   */
+  public function testGetAllCacheTagsNotCached(): void {
+
+    $nodes = $this->generateTestNodes(true);
+
+    /** @var \Drupal\node\NodeInterface The first node, which is always a wiki node, which we use as the default main page. */
+    $firstNode = \reset($nodes);
+
+    /** @var \Drupal\omnipedia_core\WrappedEntities\NodeWithWikiInfoInterface */
+    $firstNodeWrapped = $this->typedEntityRepositoryManager->wrap($firstNode);
+
+    $firstDate = $firstNodeWrapped->getWikiDate();
+
+    $mainPageTitle = $firstNodeWrapped->label();
+
+    $this->mainPageDefault->set($firstNode);
+
+    /** @var \Drupal\omnipedia_main_page\Service\MainPageCacheInterface The Omnipedia main page cache service. */
+    $mainPageCache = $this->container->get('omnipedia_main_page.cache');
+
+    /** @var \Drupal\omnipedia_core\Service\WikiNodeResolverInterface The Omnipedia wiki node resolver service. */
+    $wikiNodeResolver = $this->container->get('omnipedia.wiki_node_resolver');
+
+    /** @var array */
+    $nids = $wikiNodeResolver->nodeOrTitleToNids($firstNode);
+
+    /** @var \Drupal\Core\Cache\CacheBackendInterface The default Drupal cache bin. */
+    $cache = $this->container->get('cache.default');
+
+    $cid = $this->getCacheTagsCid();
+
+    /** @var array */
+    $serviceCacheTags = $mainPageCache->getAllCacheTags();
+
+    /** @var object|false */
+    $cacheData = $cache->get($cid);
+
+    $this->assertNotEmpty($serviceCacheTags);
+
+    $this->assertIsObject($cacheData);
+
+    $this->assertEquals($serviceCacheTags, $cacheData->data);
+
+    /** @var array The minimum cache tags we expect the service to have returned. */
+    $minimumCacheTags = [];
+
+    foreach ($nids as $nid) {
+
+      $minimumCacheTags = Cache::mergeTags(
+        $minimumCacheTags, $nodes[$nid]->getCacheTags(),
+      );
+
+    }
+
+    // Just in case.
+    $this->assertNotEmpty($minimumCacheTags);
+
+    foreach ($minimumCacheTags as $cacheTag) {
+      $this->assertContains($cacheTag, $serviceCacheTags);
+    }
 
   }
 
