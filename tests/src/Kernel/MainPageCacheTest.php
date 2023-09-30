@@ -78,13 +78,6 @@ class MainPageCacheTest extends MainPageServiceKernelTestBase {
     /** @var \Drupal\node\NodeInterface The first node, which is always a wiki node, which we use as the default main page. */
     $firstNode = \reset($nodes);
 
-    /** @var \Drupal\omnipedia_core\WrappedEntities\NodeWithWikiInfoInterface */
-    $firstNodeWrapped = $this->typedEntityRepositoryManager->wrap($firstNode);
-
-    $firstDate = $firstNodeWrapped->getWikiDate();
-
-    $mainPageTitle = $firstNodeWrapped->label();
-
     $this->mainPageDefault->set($firstNode);
 
     /** @var \Drupal\omnipedia_main_page\Service\MainPageCacheInterface The Omnipedia main page cache service. */
