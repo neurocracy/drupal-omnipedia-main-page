@@ -33,11 +33,17 @@ class MainPageCacheTest extends MainPageServiceKernelTestBase {
   }
 
   /**
-   * Test getting all main page cache tags.
+   * Test getting all main page cache tags when a value is already cached.
+   *
+   * The service will just return whatever value it finds without validating or
+   * altering it, since it does all that before writing it to the cache and it's
+   * not expected to be modified by anything outside of the service. We use this
+   * to our advantage in this test to keep it as simple as possible without
+   * having to create any nodes or do anything complex.
    *
    * @covers ::getAllCacheTags()
    */
-  public function testGetAllCacheTags(): void {
+  public function testGetAllCacheTagsCached(): void {
 
     /** @var \Prophecy\Prophecy\ProphecyInterface Mocked up Drupal cache bin. */
     $cache = $this->prophesize(CacheBackendInterface::class);
