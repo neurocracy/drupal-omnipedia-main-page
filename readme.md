@@ -17,7 +17,7 @@ which provides main page functionality for [Omnipedia](https://omnipedia.app/).
 
 Follow the Composer installation instructions for these dependencies first:
 
-* The [`omnipedia_access`](https://github.com/neurocracy/drupal-omnipedia-access), [`omnipedia_core`](https://github.com/neurocracy/drupal-omnipedia-core), and [`omnipedia_date`](https://github.com/neurocracy/drupal-omnipedia-date) modules.
+* The [`omnipedia_access`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-access), [`omnipedia_core`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-core), and [`omnipedia_date`](https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-date) modules.
 
 ----
 
@@ -40,9 +40,10 @@ should get you up and running.
 In your root `composer.json`, add the following to the `"repositories"` section:
 
 ```json
-"drupal/omnipedia_main_page": {
+{
   "type": "vcs",
-  "url": "https://github.com/neurocracy/drupal-omnipedia-main-page.git"
+  "url": "https://gitlab.com/neurocracy/omnipedia/modules/omnipedia-main-page.git",
+  "only": ["drupal/omnipedia_main_page"]
 }
 ```
 
