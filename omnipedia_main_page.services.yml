@@ -25,11 +25,15 @@ services:
       - '@omnipedia_main_page.default'
       - '@omnipedia.wiki_node_resolver'
 
+  Drupal\omnipedia_main_page\Service\MainPageCacheInterface: '@omnipedia_main_page.cache'
+
   omnipedia_main_page.default:
     class: Drupal\omnipedia_main_page\Service\MainPageDefault
     arguments:
       - '@omnipedia.wiki_node_resolver'
       - '@state'
+
+  Drupal\omnipedia_main_page\Service\MainPageDefaultInterface: '@omnipedia_main_page.default'
 
   omnipedia_main_page.resolver:
     class: Drupal\omnipedia_main_page\Service\MainPageResolver
@@ -38,6 +42,8 @@ services:
       - '@omnipedia.wiki_node_resolver'
       - '@omnipedia.wiki_node_revision'
 
+  Drupal\omnipedia_main_page\Service\MainPageResolverInterface: '@omnipedia_main_page.resolver'
+
   omnipedia_main_page.route:
     class: Drupal\omnipedia_main_page\Service\MainPageRoute
     arguments:
@@ -45,6 +51,8 @@ services:
       - '@omnipedia_main_page.default'
       - '@omnipedia_main_page.resolver'
       - '@omnipedia.wiki_node_route'
+
+  Drupal\omnipedia_main_page\Service\MainPageRouteInterface: '@omnipedia_main_page.route'
 
   omnipedia_main_page.wiki_node_edit_local_task_event_subscriber:
     class: Drupal\omnipedia_main_page\EventSubscriber\Menu\WikiNodeEditLocalTaskEventSubscriber
