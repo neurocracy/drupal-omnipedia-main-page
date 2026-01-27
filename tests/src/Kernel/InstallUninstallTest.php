@@ -20,8 +20,9 @@ class InstallUninstallTest extends KernelTestBase {
    * {@inheritdoc}
    */
   protected static $modules = [
-    'datetime', 'field', 'filter', 'menu_ui', 'node', 'omnipedia_core',
-    'system', 'taxonomy', 'text', 'typed_entity', 'user',
+    'datetime', 'field', 'filter', 'menu_ui', 'node',
+    'omnipedia_core_wiki_node_test_dependencies', 'omnipedia_core', 'system',
+    'taxonomy', 'text', 'typed_entity', 'user',
   ];
 
   /**
@@ -40,7 +41,8 @@ class InstallUninstallTest extends KernelTestBase {
     $this->installSchema('user', 'users_data');
 
     $this->installConfig([
-      'field', 'filter', 'node', 'omnipedia_core', 'system',
+      'field', 'filter', 'node',
+      'omnipedia_core_wiki_node_test_dependencies', 'omnipedia_core', 'system',
     ]);
 
   }

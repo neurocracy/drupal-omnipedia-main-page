@@ -56,7 +56,7 @@ class MainPageControllerTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['omnipedia_main_page'];
+  protected static $modules = ['omnipedia_core_wiki_node_test_dependencies'];
 
   /**
    * {@inheritdoc}
@@ -64,6 +64,13 @@ class MainPageControllerTest extends BrowserTestBase {
   protected function setUp(): void {
 
     parent::setUp();
+
+    // We're installing this here rather than in $modules to work around
+    // field.storage.node.body not being found, giving the test module above a
+    // chance to install it before omnipedia_core is installed.
+    //
+    // @see https://gitlab.com/neurocracy/omnipedia/omnipedia/-/work_items/77
+    $this->container->get('module_installer')->install(['omnipedia_main_page']);
 
     $this->defaultDate = $this->container->get('omnipedia_date.default_date');
 
