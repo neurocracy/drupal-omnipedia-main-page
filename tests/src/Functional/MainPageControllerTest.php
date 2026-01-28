@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\omnipedia_main_page\Functional;
 
+use Drupal\Core\Config\PreExistingConfigException;
 use Drupal\node\NodeInterface;
 use Drupal\omnipedia_core\Entity\WikiNodeInfo;
 use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
@@ -56,7 +57,7 @@ class MainPageControllerTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['omnipedia_core_wiki_node_test_dependencies'];
+  protected static $modules = [];
 
   /**
    * {@inheritdoc}
@@ -65,12 +66,31 @@ class MainPageControllerTest extends BrowserTestBase {
 
     parent::setUp();
 
+    // This needs to catch \Drupal\Core\Config\PreExistingConfigException if
+    // thrown. Drupal >= 11.3 will not have field.storage.node.body, so we need
+    // to attempt to install the module below which provides it, but doing will
+    // result in PreExistingConfigException being thrown due to the field
+    // storage already existing in Drupal < 11.3.
+    //
+    // @see https://gitlab.com/neurocracy/omnipedia/omnipedia/-/work_items/77
+    try {
+
+      $this->container->get('module_installer')->install([
+        'omnipedia_core_wiki_node_test_dependencies',
+      ]);
+
+    } catch (PreExistingConfigException $exception) {}
+
     // We're installing this here rather than in $modules to work around
     // field.storage.node.body not being found, giving the test module above a
     // chance to install it before omnipedia_core is installed.
     //
     // @see https://gitlab.com/neurocracy/omnipedia/omnipedia/-/work_items/77
     $this->container->get('module_installer')->install(['omnipedia_main_page']);
+
+    // Seems to be necessary to pick up the omnipedia_date and
+    // omnipedia_main_page services below.
+    $this->rebuildContainer();
 
     $this->defaultDate = $this->container->get('omnipedia_date.default_date');
 
