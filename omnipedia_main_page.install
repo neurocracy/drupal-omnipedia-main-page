@@ -45,3 +45,14 @@ function omnipedia_main_page_uninstall(bool $isSyncing): void {
   )->save();
 
 }
+
+/**
+ * Install Hux and rebuild container for porting system_branding_block hooks.
+ */
+function omnipedia_main_page_update_10101(): void {
+
+  \Drupal::service('module_installer')->install(['hux']);
+
+  \Drupal::service('kernel')->invalidateContainer();
+
+}
