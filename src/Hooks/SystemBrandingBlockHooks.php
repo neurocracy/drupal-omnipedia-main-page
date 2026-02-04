@@ -48,19 +48,20 @@ class SystemBrandingBlockHooks {
     //   the current date?
     $build['#cache']['contexts'] = Cache::mergeContexts(
       $build['#cache']['contexts'],
-      ['omnipedia_dates', 'user.permissions', 'user.node_grants:view']
+      ['omnipedia_dates', 'user.permissions', 'user.node_grants:view'],
     );
 
     // Add the current date cache tag and cache tags from all main pages.
     foreach ([
-      ['omnipedia_dates:' . $this->timeline
-        ->getDateFormatted('current', 'storage')],
-      $this->mainPageCache->getAllCacheTags()
+      ['omnipedia_dates:' . $this->timeline->getDateFormatted(
+        'current', 'storage',
+      )],
+      $this->mainPageCache->getAllCacheTags(),
     ] as $tags) {
 
       $build['#cache']['tags'] = Cache::mergeTags(
         $build['#cache']['tags'],
-        $tags
+        $tags,
       );
 
     }
