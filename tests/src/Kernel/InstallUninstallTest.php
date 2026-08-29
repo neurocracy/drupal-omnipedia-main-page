@@ -6,14 +6,15 @@ namespace Drupal\Tests\omnipedia_main_page\Kernel;
 
 use Drupal\Core\Url;
 use Drupal\KernelTests\KernelTestBase;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for installing and uninstalling this module.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[RunTestsInSeparateProcesses]
 class InstallUninstallTest extends KernelTestBase {
 
   /**

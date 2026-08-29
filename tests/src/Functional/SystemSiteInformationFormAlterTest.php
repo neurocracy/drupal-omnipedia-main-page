@@ -13,14 +13,15 @@ use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
 use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\UserInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the 'system_site_information_settings' form alter.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[RunTestsInSeparateProcesses]
 class SystemSiteInformationFormAlterTest extends BrowserTestBase {
 
   /**

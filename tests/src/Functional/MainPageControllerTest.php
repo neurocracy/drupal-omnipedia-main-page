@@ -11,14 +11,16 @@ use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_date\Service\DefaultDateInterface;
 use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
 use Drupal\Tests\BrowserTestBase;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the main page controller.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[RunTestsInSeparateProcesses]
 class MainPageControllerTest extends BrowserTestBase {
 
   /**
@@ -146,9 +148,8 @@ class MainPageControllerTest extends BrowserTestBase {
 
   /**
    * Test that visiting the base URL redirects to the expected main page node.
-   *
-   * @dataProvider datesDataProvider
    */
+  #[DataProvider('datesDataProvider')]
   public function testRedirect(string $date): void {
 
     // Set the default date.
@@ -166,9 +167,8 @@ class MainPageControllerTest extends BrowserTestBase {
 
   /**
    * Test that visiting the base URL doesn't redirect to unpublished main pages.
-   *
-   * @dataProvider datesDataProvider
    */
+  #[DataProvider('datesDataProvider')]
   public function testRedirectAccess(string $date): void {
 
     // Set the default date.

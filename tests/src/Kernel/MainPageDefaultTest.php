@@ -8,22 +8,22 @@ use Drupal\omnipedia_core\Service\WikiNodeTrackerInterface;
 use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
 use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
 use Drupal\typed_entity\EntityWrapperInterface;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the Omnipedia default main page service.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
- *
- * @coversDefaultClass \Drupal\omnipedia_main_page\Service\MainPageDefault
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[CoversMethod(MainPageDefaultInterface::class, 'get')]
+#[CoversMethod(MainPageDefaultInterface::class, 'set')]
+#[RunTestsInSeparateProcesses]
 class MainPageDefaultTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that getting the default main page when not set throws an exception.
-   *
-   * @covers ::get()
    */
   public function testGetNotSet(): void {
 
@@ -35,8 +35,6 @@ class MainPageDefaultTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that setting invalid values throws exceptions.
-   *
-   * @covers ::set()
    */
   public function testSetInvalid(): void {
 
@@ -62,10 +60,6 @@ class MainPageDefaultTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that setting and getting with valid values works as expected.
-   *
-   * @covers ::set()
-   *
-   * @covers ::get()
    */
   public function testSetGetValid(): void {
 

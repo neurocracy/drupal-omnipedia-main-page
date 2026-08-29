@@ -7,17 +7,19 @@ namespace Drupal\Tests\omnipedia_main_page\Kernel;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\omnipedia_main_page\Service\MainPageCache;
+use Drupal\omnipedia_main_page\Service\MainPageCacheInterface;
 use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the Omnipedia main page cache service.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
- *
- * @coversDefaultClass \Drupal\omnipedia_main_page\Service\MainPageCache
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[CoversMethod(MainPageCacheInterface::class, 'getAllCacheTags')]
+#[RunTestsInSeparateProcesses]
 class MainPageCacheTest extends MainPageServiceKernelTestBase {
 
   /**
@@ -41,8 +43,6 @@ class MainPageCacheTest extends MainPageServiceKernelTestBase {
    * not expected to be modified by anything outside of the service. We use this
    * to our advantage in this test to keep it as simple as possible without
    * having to create any nodes or do anything complex.
-   *
-   * @covers ::getAllCacheTags()
    */
   public function testGetAllCacheTagsCached(): void {
 
@@ -68,8 +68,6 @@ class MainPageCacheTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test getting all main page cache tags when not already cached.
-   *
-   * @covers ::getAllCacheTags()
    */
   public function testGetAllCacheTagsNotCached(): void {
 

@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\omnipedia_main_page\Kernel;
 
-use Drupal\omnipedia_main_page\Service\MainPageRoute;
-use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
 use Drupal\Core\Routing\StackedRouteMatchInterface;
+use Drupal\omnipedia_main_page\Service\MainPageRoute;
+use Drupal\omnipedia_main_page\Service\MainPageRouteInterface;
+use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the Omnipedia main page route service.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
- *
- * @coversDefaultClass \Drupal\omnipedia_main_page\Service\MainPageRoute
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[CoversMethod(MainPageRouteInterface::class, 'isCurrent')]
+#[CoversMethod(MainPageRouteInterface::class, 'getName')]
+#[CoversMethod(MainPageRouteInterface::class, 'getParameters')]
+#[RunTestsInSeparateProcesses]
 class MainPageRouteTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test current route detection.
-   *
-   * @covers ::isCurrent()
    *
    * @todo Also test node edit and preview route names.
    */
@@ -109,9 +111,6 @@ class MainPageRouteTest extends MainPageServiceKernelTestBase {
    * Note that ::getName() currently just returns a hard-coded string so rather
    * than test that in a separate method or implement a unit test, we just
    * bundle it into this test for simplicity.
-   *
-   * @covers ::getName()
-   * @covers ::getParameters()
    */
   public function testGetNameAndParameters(): void {
 

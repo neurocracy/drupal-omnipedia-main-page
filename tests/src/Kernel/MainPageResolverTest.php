@@ -6,16 +6,18 @@ namespace Drupal\Tests\omnipedia_main_page\Kernel;
 
 use Drupal\omnipedia_main_page\Service\MainPageResolverInterface;
 use Drupal\Tests\omnipedia_main_page\Kernel\MainPageServiceKernelTestBase;
+use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for the Omnipedia main page resolver service.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
- *
- * @coversDefaultClass \Drupal\omnipedia_main_page\Service\MainPageResolver
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[CoversMethod(MainPageResolverInterface::class, 'is')]
+#[CoversMethod(MainPageResolverInterface::class, 'get')]
+#[RunTestsInSeparateProcesses]
 class MainPageResolverTest extends MainPageServiceKernelTestBase {
 
   /**
@@ -40,8 +42,6 @@ class MainPageResolverTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that the service correctly identifies main pages and non-main pages.
-   *
-   * @covers ::is()
    *
    * @todo Test with other wiki nodes in the first date as the default.
    */
@@ -98,8 +98,6 @@ class MainPageResolverTest extends MainPageServiceKernelTestBase {
 
   /**
    * Test that the service returns the expected main pages for each date.
-   *
-   * @covers ::get()
    *
    * @todo Test with other wiki nodes in the first date as the default.
    */

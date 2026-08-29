@@ -12,18 +12,19 @@ use Drupal\omnipedia_date\Service\DefaultDateInterface;
 use Drupal\omnipedia_main_page\Service\MainPageDefaultInterface;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\RoleInterface;
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests for wiki node 'Edit' local task visibility.
- *
- * @group omnipedia
- *
- * @group omnipedia_main_page
  *
  * @see \Drupal\Tests\omnipedia_core\Functional\WikiNodeEditLocalTaskTest
  *   Tests the general functionality that doesn't involve main pages
  *   specifically.
  */
+#[Group('omnipedia')]
+#[Group('omnipedia_main_page')]
+#[RunTestsInSeparateProcesses]
 class WikiNodeEditLocalTaskTest extends BrowserTestBase {
 
   /**
