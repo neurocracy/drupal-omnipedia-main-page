@@ -55,6 +55,15 @@ class WikiNodeEditLocalTaskTest extends BrowserTestBase {
 
   /**
    * {@inheritdoc}
+   *
+   * @see https://gitlab.com/neurocracy/omnipedia/omnipedia/-/work_items/81
+   *   Don't use the core 'testing' profile since it provides an incompatible
+   *   node body storage config in drupal/core:^11.4.
+   */
+  protected $profile = 'minimal';
+
+  /**
+   * {@inheritdoc}
    */
   protected $defaultTheme = 'stark';
 
